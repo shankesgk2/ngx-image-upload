@@ -1,0 +1,22 @@
+{
+  "name": "ngx-image-upload",
+  "version": "0.0.1",
+  "description": "Angular 6 image upload.",
+  "author": {
+    "name": "shankesgk2",
+    "email": "shankesgk2@gmail.com",
+    "url": "https://www.dscmf.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "angular6",
+    "imageupload",
+    "typescript",
+    "angular/cli"
+  ],
+  "private": false,
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+  }
+}

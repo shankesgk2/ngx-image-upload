@@ -119,8 +119,8 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
   }
 
   private processUploadedFiles() {
-    for (const i in this.uploadedFiles){
-      let data: any = this.uploadedFiles[i];
+    if (typeof this.uploadedFiles === 'string') {
+      let data: any = this.uploadedFiles;
 
       let fileBlob: Blob,
         file: File,
@@ -137,6 +137,27 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
       }
 
       this.files.push(new FileHolder(fileUrl, file));
+    }else{
+      for (const i in this.uploadedFiles){
+        let data: any = this.uploadedFiles[i];
+  
+        let fileBlob: Blob,
+          file: File,
+          fileUrl: string;
+  
+        if (data instanceof Object) {
+          fileUrl = data.url;
+          fileBlob = (data.blob) ? data.blob : new Blob([data]);
+          file = new File([fileBlob], data.fileName);
+        } else {
+          fileUrl = data;
+          fileBlob = new Blob([fileUrl]);
+          file = new File([fileBlob], fileUrl);
+        }
+  
+        this.files.push(new FileHolder(fileUrl, file));
+      }
+      this.max = this.max - Object.keys(this.uploadedFiles).length;
     }
   }
 

@@ -1,13 +1,44 @@
+.img-ul-image{
+    display: inline-block;
+    box-shadow:0px 0px 10px 2px #d0d0d0;
+}
 .img-ul {
-    --active-color: #3C9;
     --common-radius: 3px;
-    background-color: #f8f8f8;
     border-radius: var(--common-radius);
-    border: #d0d0d0 dashed 1px;
-    /* font-family: sans-serif; */
     position: relative;
     color: #9b9b9b;
     font-weight: normal;
+}
+
+.img-ul-x-mark {
+    background-color: #000;
+    border-radius: 10px;
+    color: #FFF;
+    cursor: pointer;
+    height: 20px;
+    opacity: .7;
+    text-align: center;
+    width: 20px;
+    position: absolute;
+    top: -8px;
+    right: -10px;
+}
+
+.img_div{
+    position: relative;
+    width: 120px;
+    height:120px;
+    overflow: hidden;
+}
+
+.imgs{
+    max-width: 200%;
+    height: auto;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:#000;
 }
 
 .img-ul-file-is-over {
@@ -20,18 +51,25 @@
     display: table;
 }
 
-.img-ul-file-upload {    
-    padding: 16px;
+.img-ul-file-upload {
+    display: inline-block;
+    
+    width: 120px;
+    height: 120px;
+    margin: 10px;
+    color: #000000;
+    text-align: center;
+    line-height: 120px;
 }
 
 .img-ul-drag-box-msg {    
     display: inline-block;
     font-weight: 600;
     margin-left: 12px;
-    padding-top: 14px;
 }
 
 label.img-ul-button {
+    border: #d0d0d0 dashed 1px;
     font-size: 1em !important;
 }
 
@@ -53,20 +91,17 @@ label.img-ul-button input[type=file] {
 
 .img-ul-upload {
     background-color: var(--active-color);
+    width: 120px;
+    height: 120px;
 }
 
 .img-ul-button {
-    -moz-box-shadow: 2px 2px 4px 0 rgba(148, 148, 148, 0.6);
-    -webkit-box-shadow: 2px 2px 4px 0 rgba(148, 148, 148, 0.6);
     border: none;
-    box-shadow: 2px 2px 4px 0 rgba(148, 148, 148, 0.6);
-    color: #FFF;
     cursor: pointer;
     display: inline-block;
     float: left;
     font-size: 1.25em;
     font-weight: 500;
-    padding: 10px;
     text-transform: uppercase;
 }
 
@@ -77,8 +112,8 @@ label.img-ul-button input[type=file] {
 }
 
 .img-ul-container {
-    background-color: #fdfdfd;
-    padding: 0 10px;
+    position: relative;
+    display: inline-block;
 }
 
 .img-ul-image {    
@@ -86,29 +121,15 @@ label.img-ul-button input[type=file] {
     background-size: contain;
     display: inline-block;
     float: left;
-    height: 86px;
+    height: 120px;
     margin: 6px;
     position: relative;
-    width: 86px;
-}
-
-.img-ul-x-mark {
-    background-color: #000;
-    border-radius: 2px;
-    color: #FFF;
-    cursor: pointer;
-    float: right;
-    height: 20px;
-    margin: 2px;
-    opacity: .7;
-    text-align: center;
-    width: 20px;
+    width: 120px;
 }
 
 .img-ul-close {
     height: 20px;
     opacity: .7;
-    padding-right: 3px;
     position: relative;
     width: 20px;
 }
@@ -121,9 +142,9 @@ label.img-ul-button input[type=file] {
     background-color: #FFF;
     border-radius: 2px;
     content: '';
-    height: 15px;
+    height: 10px;
     position: absolute;
-    top: 0;
+    top: 5px;
     width: 2px;
 }
 
@@ -168,7 +189,6 @@ label.img-ul-button input[type=file] {
 
 .img-ul-file-too-large {
     color: red;
-    padding: 0 15px;
 }
 
 .img-ul-upload.img-ul-disabled {

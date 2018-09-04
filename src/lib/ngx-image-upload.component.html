@@ -7,6 +7,29 @@
      [ngClass]="{'img-ul-file-is-over': fileOver}"     
      [ngStyle]="style?.layout"
 >
+  <p class="img-ul-file-too-large" *ngIf="showFileTooLargeMessage" [innerText]="fileTooLargeMessage"></p>
+
+  <div *ngIf="preview" class="img-ul-container img-ul-hr-inline-group" [ngStyle]="style?.previewPanel">
+    <!-- img -->
+    <div
+      class="img-ul-image"
+      *ngFor="let file of files"
+      (click)="previewFileClicked(file)"
+    >
+      <!-- [ngStyle]="{'background-image': 'url('+ file.src +')'}" -->
+      <div class="img_div"><img src={{file.src}} class="imgs"></div>
+      <div *ngIf="file.pending" class="img-ul-loading-overlay">
+        <div class="img-ul-spinning-circle"></div>
+      </div>
+      <div *ngIf="!file.pending" 
+        [ngClass]="{'img-ul-disabled': disabled}" 
+        class="img-ul-x-mark" 
+        (click)="deleteFile(file)">
+        <span class="img-ul-close"></span>
+      </div>
+    </div>
+  </div>
+  
   <div class="img-ul-file-upload img-ul-hr-inline-group">    
     <label *ngIf="fileCounter != max"
       class="img-ul-upload img-ul-button" 
@@ -20,34 +43,5 @@
         multiple (change)="onFileChange(input.files)"
         #input>
     </label>
-    <button *ngIf="fileCounter > 0"
-      [disabled]="disabled"
-      class="img-ul-clear img-ul-button" 
-      (click)="deleteAll()" 
-      [ngStyle]="style?.clearButton"
-      [innerText]="clearButtonCaption">
-    </button>
-    <div class="img-ul-drag-box-msg" [innerText]="dropBoxMessage"></div>
-  </div>
-
-  <p class="img-ul-file-too-large" *ngIf="showFileTooLargeMessage" [innerText]="fileTooLargeMessage"></p>
-
-  <div *ngIf="preview" class="img-ul-container img-ul-hr-inline-group" [ngStyle]="style?.previewPanel">
-    <div
-      class="img-ul-image"
-      *ngFor="let file of files"
-      (click)="previewFileClicked(file)"
-      [ngStyle]="{'background-image': 'url('+ file.src +')'}"
-    >
-      <div *ngIf="file.pending" class="img-ul-loading-overlay">
-        <div class="img-ul-spinning-circle"></div>
-      </div>
-      <div *ngIf="!file.pending" 
-        [ngClass]="{'img-ul-disabled': disabled}" 
-        class="img-ul-x-mark" 
-        (click)="deleteFile(file)">
-        <span class="img-ul-close"></span>
-      </div>
-    </div>
   </div>
 </div>

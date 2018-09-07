@@ -53,12 +53,6 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
   constructor(private imageService: NgxImageUploadService) { }
 
   ngOnInit() {
-    if (typeof this.uploadedFiles === 'string') {
-      this.max = this.max - 1;
-    } else {
-      this.max = this.max - Object.keys(this.uploadedFiles).length;
-    }
-    (typeof this.uploadedFiles);
     if (!this.fileTooLargeMessage) {
       this.fileTooLargeMessage = '图片太大无法上传.' + (this.maxFileSize ? (' 最大允许 ' + this.maxFileSize / 1024) + 'KiB.' : '');
     }
@@ -130,6 +124,9 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
     if (typeof this.uploadedFiles === 'string') {
       let data: any = this.uploadedFiles;
 
+      this.fileCounter = 1;
+      this.max = 1;
+
       let fileBlob: Blob,
         file: File,
         fileUrl: string;
@@ -144,8 +141,10 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
         file = new File([fileBlob], fileUrl);
       }
 
+      this.files = [];
       this.files.push(new FileHolder(fileUrl, file));
     } else {
+      this.max = this.max - Object.keys(this.uploadedFiles).length;
       for (const i in this.uploadedFiles) {
         let data: any = this.uploadedFiles[i];
 

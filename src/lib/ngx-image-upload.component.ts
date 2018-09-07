@@ -84,7 +84,7 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-    if (changes.uploadedFiles && changes.uploadedFiles.currentValue.length > 0) {
+    if (changes.uploadedFiles && changes.uploadedFiles.currentValue && changes.uploadedFiles.currentValue.length > 0) {
       this.processUploadedFiles();
     }
   }

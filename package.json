@@ -1,6 +1,6 @@
 {
   "name": "ngx-image-upload",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Angular 6 image upload.",
   "author": {
     "name": "shankesgk2",
@@ -25,7 +25,7 @@
     "url": "https://github.com/shankesgk2/ngx-image-upload/issues"
   },
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+    "@angular/common": "^6.0.3",
+    "@angular/core": "^6.0.3"
   }
 }

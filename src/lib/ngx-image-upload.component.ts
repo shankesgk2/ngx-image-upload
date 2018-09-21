@@ -5,7 +5,7 @@ import { NgxImageUploadService } from './ngx-image-upload.service';
 import { Style } from './style';
 
 export class FileHolder {
-  public pending: boolean = false;
+  public pending = false;
   public serverResponse: { status: number, response: any };
 
   constructor(public src: string, public file: File) {
@@ -20,11 +20,12 @@ export class FileHolder {
 export class NgxImageUploadComponent implements OnInit, OnChanges {
 
   files: FileHolder[] = [];
-  fileCounter: number = 0;
-  fileOver: boolean = false;
-  showFileTooLargeMessage: boolean = false;
+  fileCounter = 0;
+  fileOver = false;
+  showFileTooLargeMessage = false;
+  private inputElement: ElementRef;
+  private pendingFilesCounter = 0;
 
-  @Input() beforeUpload: (param: UploadMetadata) => UploadMetadata | Promise<UploadMetadata> = data => data;
   @Input() buttonCaption = '添加图片';
   @Input() disabled = false;
   @Input('class') cssClass = 'img-ul';
@@ -45,10 +46,8 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
   @Output() uploadStateChanged = new EventEmitter<boolean>();
   @Output() uploadFinished = new EventEmitter<FileHolder>();
   @Output() previewClicked = new EventEmitter<FileHolder>();
-
   @ViewChild('input')
-  private inputElement: ElementRef;
-  private pendingFilesCounter: number = 0;
+  @Input() beforeUpload: (param: UploadMetadata) => UploadMetadata | Promise<UploadMetadata> = data => data;
 
   constructor(private imageService: NgxImageUploadService) { }
 
@@ -69,7 +68,7 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
   }
 
   deleteFile(file: FileHolder): void {
-    let index = this.files.indexOf(file);
+    const index = this.files.indexOf(file);
     this.files.splice(index, 1);
     this.fileCounter--;
 
@@ -93,10 +92,10 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
     if (this.disabled) return;
 
     // let remainingSlots = 0;
-    let remainingSlots = this.countRemainingSlots();
-    let filesToUploadNum = files.length > remainingSlots ? remainingSlots : files.length;
+    const remainingSlots = this.countRemainingSlots();
+    const filesToUploadNum = files.length > remainingSlots ? remainingSlots : files.length;
 
-    if (this.url && filesToUploadNum != 0) {
+    if (this.url && filesToUploadNum !== 0) {
       this.uploadStateChanged.emit(true);
     }
 
@@ -115,14 +114,14 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
 
     this.uploadFinished.emit(fileHolder);
 
-    if (--this.pendingFilesCounter == 0) {
+    if (--this.pendingFilesCounter === 0) {
       this.uploadStateChanged.emit(false);
     }
   }
 
   private processUploadedFiles() {
     if (typeof this.uploadedFiles === 'string') {
-      let data: any = this.uploadedFiles;
+      const data: any = this.uploadedFiles;
 
       this.fileCounter = 1;
       this.max = 1;
@@ -146,23 +145,24 @@ export class NgxImageUploadComponent implements OnInit, OnChanges {
     } else {
       this.max = this.max - Object.keys(this.uploadedFiles).length;
       for (const i in this.uploadedFiles) {
-        let data: any = this.uploadedFiles[i];
+        if (this.uploadedFiles[i]) {
+          const data: any = this.uploadedFiles[i];
+          let fileBlob: Blob,
+            file: File,
+            fileUrl: string;
 
-        let fileBlob: Blob,
-          file: File,
-          fileUrl: string;
+          if (data instanceof Object) {
+            fileUrl = data.url;
+            fileBlob = (data.blob) ? data.blob : new Blob([data]);
+            file = new File([fileBlob], data.fileName);
+          } else {
+            fileUrl = data;
+            fileBlob = new Blob([fileUrl]);
+            file = new File([fileBlob], fileUrl);
+          }
 
-        if (data instanceof Object) {
-          fileUrl = data.url;
-          fileBlob = (data.blob) ? data.blob : new Blob([data]);
-          file = new File([fileBlob], data.fileName);
-        } else {
-          fileUrl = data;
-          fileBlob = new Blob([fileUrl]);
-          file = new File([fileBlob], fileUrl);
+          this.files.push(new FileHolder(fileUrl, file));
         }
-
-        this.files.push(new FileHolder(fileUrl, file));
       }
     }
   }
